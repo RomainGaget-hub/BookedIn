@@ -7,7 +7,7 @@ const Header = () => {
 			>
 				<div className="flex lg:flex-1">
 					<a href="#" className="-m-1.5 p-1.5">
-						<span className="font-bold">RG-WEB</span>
+						<span className="font-bold">BookedIn</span>
 					</a>
 				</div>
 				<div className="flex lg:hidden">

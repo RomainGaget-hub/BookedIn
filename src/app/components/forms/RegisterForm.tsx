@@ -1,38 +1,124 @@
-import { z } from 'zod';
-import Form from '@/components/ui/RG_form'; // Import ShadCN's Form wrapper
-//import { TextInput } from '@/components/'; // Import ShadCN's TextInput component
-import { Input } from '@/components/ui/input'; // Import ShadCN's TextInput component
-import { Button } from '@/components/ui/button'; // Import ShadCN's Button component
-import { Label } from '@/components/ui/label';
+'use client';
 
-const schema = z.object({
-	firstName: z.string().min(2),
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+
+const formSchema = z.object({
+	firstName: z.string().min(2, {
+		message: 'First Name must be at least 2 characters.',
+	}),
 	lastName: z.string().min(2),
 	email: z.string().email(),
 	password: z.string().min(8),
 	confirmPassword: z.string().min(8),
 });
 
-const LoginForm = () => {
-	const onSubmit = (data) => {
-		console.log(data);
-	};
+export function ProfileForm() {
+	// 1. Define your form.
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			password: '',
+			confirmPassword: '',
+		},
+	});
+
+	// 2. Define a submit handler.
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		// Do something with the form values.
+		// ✅ This will be type-safe and validated.
+		console.log(values);
+	}
 
 	return (
-		<Form schema={schema} onSubmit={onSubmit}>
-			<Label htmlFor="firtName">First Name</Label>
-			<Input id="firtName" name="firstName" placeholder="First Name" />
-			<Label htmlFor="lastName">Last Name</Label>
-			<Input id="lastName" name="lastName" placeholder="Last Name" />
-			<Label htmlFor="email">Email</Label>
-			<Input id="email" type="email" placeholder="Email" />
-			<Label htmlFor="password">Password</Label>
-			<Input id="password" placeholder="Password" type="password" />
-			<Label htmlFor="confPassword">Confirm Password</Label>
-			<Input id="confPassword" type="password" />
-			<Button type="submit">Register</Button>
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+				<FormField
+					control={form.control}
+					name="firstName"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>First Name</FormLabel>
+							<FormControl>
+								<Input placeholder="First Name" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="lastName"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Last Name</FormLabel>
+							<FormControl>
+								<Input placeholder="Last Name" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input placeholder="Email" type="email" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input placeholder="Password" type="password" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="confirmPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Confirm Password</FormLabel>
+							<FormControl>
+								<Input
+									placeholder="Confirm Password"
+									type="password"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<Button type="submit">Submit</Button>
+			</form>
 		</Form>
 	);
-};
-
-export default LoginForm;
+}
