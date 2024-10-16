@@ -3,13 +3,14 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form"
+import { FormFieldType } from "../forms/enum";
 
 interface CustomProps {
     control: Control<any>,
-    fieldType: FormFieldType<Control>
+    fieldType: FormFieldType
 }
 
-export default function CustomFormField({ control }: CustomProps) {
+export default function CustomFormField({ control, fieldType }: CustomProps) {
     return (
 
         <FormField
