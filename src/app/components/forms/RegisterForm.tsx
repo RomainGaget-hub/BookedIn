@@ -50,10 +50,13 @@ export function ProfileForm() {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-			<CustomFormField 
-				fieldType={FormFieldType.INPUT}
-				control={form.control}
-			/>
+				<CustomFormField
+					fieldType={FormFieldType.INPUT}
+					control={form.control}
+					name="firstName"
+					label="First Name"
+					palceholder='First Name'
+				/>
 				<FormField
 					control={form.control}
 					name="lastName"
